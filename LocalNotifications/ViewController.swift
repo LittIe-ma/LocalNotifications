@@ -14,6 +14,14 @@ class ViewController: UIViewController {
     // Do any additional setup after loading the view.
   }
 
+  @IBAction func didTapNotification(_ sender: Any) {
+    let content = UNMutableNotificationContent()
+    content.title = "title"
+    content.subtitle = "subtitle"
+    content.body = "body"
+    content.sound = .default
 
+    let request = UNNotificationRequest(identifier: "testID", content: content, trigger: nil)
+    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+  }
 }
-
