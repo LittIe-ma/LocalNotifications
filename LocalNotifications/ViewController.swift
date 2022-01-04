@@ -21,7 +21,8 @@ class ViewController: UIViewController {
     content.body = "body"
     content.sound = .default
 
-    let request = UNNotificationRequest(identifier: "testID", content: content, trigger: nil)
+    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+    let request = UNNotificationRequest(identifier: "testID", content: content, trigger: trigger)
     UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
   }
 }
