@@ -10,13 +10,20 @@ import UserNotifications
 
 class ViewController: UIViewController {
 
+  @IBOutlet private weak var datePicker: UIDatePicker! {
+    didSet {
+      datePicker.timeZone = TimeZone(identifier: "Asia/Tokyo")
+      datePicker.locale = Locale(identifier: "ja_JP")
+    }
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
   }
 
   @IBAction func didTapNotification(_ sender: Any) {
-    
+
     let content = UNMutableNotificationContent()
     content.title = "title"
     content.subtitle = "subtitle"
@@ -51,7 +58,16 @@ class ViewController: UIViewController {
       }
     }
 
-    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+    let components = Calendar.current.dateComponents(in: TimeZone.current, from: datePicker.date)
+    let triggerDate = DateComponents(
+      month: components.month,
+      day: components.day,
+      hour: components.hour,
+      minute: components.minute,
+      second: components.second
+    )
+    print("components: \(components)")
+    let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
     let request = UNNotificationRequest(identifier: "testID", content: content, trigger: trigger)
     UNUserNotificationCenter.current().add(request)
   }
