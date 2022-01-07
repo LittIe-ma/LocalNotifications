@@ -26,9 +26,16 @@ class ViewController: UIViewController {
 
     let okAction = UNNotificationAction(identifier: "okAction", title: "OK", options: [.foreground])
     let ngAction = UNNotificationAction(identifier: "ngAction", title: "NG", options: [.destructive, .foreground])
+    let textInputAction = UNTextInputNotificationAction(
+      identifier: "inputAction",
+      title: "テキスト入力",
+      options: [],
+      textInputButtonTitle: "送信",
+      textInputPlaceholder: "テキストを入力"
+    )
     let category = UNNotificationCategory(
       identifier: "selectCategory",
-      actions: [okAction, ngAction],
+      actions: [okAction, ngAction, textInputAction],
       intentIdentifiers: [],
       options: []
     )
@@ -61,6 +68,10 @@ extension ViewController: UNUserNotificationCenterDelegate {
         print("did tap ok")
       case "ngAction":
         print("did tap ng")
+      case "inputAction":
+        if let response = response as? UNTextInputNotificationResponse {
+          print(response.userText)
+        }
       default:
         break
       }
